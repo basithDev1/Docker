@@ -1,7 +1,6 @@
-
 # ===== Stage 1: Build =====
 
-FROM openjdk AS builder
+FROM eclipse-temurin:18-jdk AS builder
 
 
 WORKDIR /app/student-management
@@ -12,10 +11,10 @@ RUN javac App.java packages/fileHandler/*.java packages/system/*.java
 
 # ===== Stage 2: Runtime =====
 
-FROM gcr.io/distroless/java17
+FROM eclipse-temurin:18-jre-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/student-mangagement  /app
+COPY --from=builder /app/student-management  /app
 
-CMD ["App"]
+CMD ["java","App"]
